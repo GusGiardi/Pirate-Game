@@ -114,7 +114,7 @@ public class ShooterEnemyController : EnemyController
         {
             _currentBehaviour = Behaviour.Retreat;
         }
-        else if (distanceToPlayer <= _maxDistanceToFollowPlayer)
+        else if (distanceToPlayer >= _maxDistanceToFollowPlayer)
         {
             _currentBehaviour = Behaviour.FollowPlayer;
         }

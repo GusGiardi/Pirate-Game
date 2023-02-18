@@ -223,12 +223,12 @@ MonoBehaviour:
   _navMeshAgent: {fileID: 2017462106}
   _navigationStopDistance: 1
   _minAngleToRotate: 10
-  _minDistanceToFollowPlayer: 3
+  _minDistanceToFollowPlayer: 4
   _updatePathRate: 10
   _minDistanceToRetreat: 1.5
-  _maxDistanceToFollowPlayer: 8
+  _maxDistanceToFollowPlayer: 6
   _minDirectionDotProdToAccelerate: 0.3
-  _maxAngleToShoot: 40
+  _maxAngleToShoot: 5
   _cannonRaycasts:
   - _cannon: {fileID: 3010271059970483290}
     _cannonGroupIndex: 0

@@ -57,11 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8054984290078305523, guid: 7fedf1a069673c2458c9cbe647ab64bb, type: 3}
       propertyPath: _lifetime
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8054984290078305523, guid: 7fedf1a069673c2458c9cbe647ab64bb, type: 3}
       propertyPath: _velocity
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8957270744754748563, guid: 7fedf1a069673c2458c9cbe647ab64bb, type: 3}
       propertyPath: m_Name

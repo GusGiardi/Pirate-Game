@@ -29,6 +29,17 @@ Shader "GRD/PirateGame/MapShader"
 		_RockTopValue("Rock Top Value", Range(0,1)) = 0.7
 		_MinRockDisplacement("Min Rock Displacement", Range(-1, 0)) = -0.1
 		_MaxRockDisplacement("Max Rock Displacement", Range(0, 1)) = 0.1
+
+		[Space(10)]
+		_WaterColor("Water Color", Color) = (1,1,1,1)
+		_DeepWaterColor("DeepWater Color", Color) = (1,1,1,1)
+		_WaterSecondaryColor("Water Secondary Color", Color) = (1,1,1,1)
+		_DeepWaterSecondaryColor("DeepWater Secondary Color", Color) = (1,1,1,1)
+		_WaterDetailSize("Water Detail Size", float) = 100
+		_WaterDetailSpeed("Water Detail Speed", float) = 1
+		_WavesSpeed("Waves Speed", float) = 1
+		_WaveSize("Wave Size", float) = 0.05
+
     }
     SubShader
     {
@@ -95,6 +106,15 @@ Shader "GRD/PirateGame/MapShader"
 			fixed _MinRockDisplacement;
 			fixed _MaxRockDisplacement;
 
+			fixed4 _WaterColor;
+			fixed4 _DeepWaterColor;
+			fixed4 _WaterSecondaryColor;
+			fixed4 _DeepWaterSecondaryColor;
+			fixed _WaterDetailSize;
+			fixed _WaterDetailSpeed;
+			fixed _WavesSpeed;
+			fixed _WaveSize;
+
 			v2f vert(appdata v)
 			{
 				v2f o;
@@ -109,7 +129,7 @@ Shader "GRD/PirateGame/MapShader"
 			}
 
 			fixed4 defineIslandColor(
-				fixed value,
+				fixed value, fixed waveValue,
 				fixed4 outlineColor = fixed4(0,0,0,0), fixed outlineValue = 1,
 				fixed4 wetSandColor = fixed4(0, 0, 0, 0), fixed wetSandValue = 1,
 				fixed4 drySandColor = fixed4(0, 0, 0, 0), fixed drySandValue = 1,
@@ -122,16 +142,16 @@ Shader "GRD/PirateGame/MapShader"
 				}
 				if (value >= drySandValue)
 					return drySandColor;
-				if (value >= wetSandValue)
+				if (value >= wetSandValue + waveValue)
 					return wetSandColor;
-				if (value >= outlineValue)
+				if (value >= outlineValue + waveValue)
 					return outlineColor;
 
 				return fixed4(0, 0, 0, 0);
 			}
 
 			fixed4 defineRockColor(
-				fixed value,
+				fixed value, fixed waveValue,
 				fixed4 outlineColor = fixed4(0, 0, 0, 0), fixed outlineValue = 1,
 				fixed4 lateralColor1 = fixed4(0, 0, 0, 0),
 				fixed4 lateralColor2 = fixed4(0, 0, 0, 0),
@@ -142,7 +162,7 @@ Shader "GRD/PirateGame/MapShader"
 			{
 				if (value >= topValue)
 					return topColor;
-				if (value >= lateralValue) 
+				if (value >= lateralValue + waveValue / 4)
 				{
 					fixed normalDotProd = dot(fixed2(0, -1), normal);
 					if (normalDotProd > 0.5)
@@ -156,7 +176,7 @@ Shader "GRD/PirateGame/MapShader"
 					}
 					return lateralColor3;
 				}
-				if (value >= outlineValue)
+				if (value >= outlineValue + waveValue / 4)
 					return outlineColor;
 
 				return fixed4(0, 0, 0, 0);
@@ -191,12 +211,14 @@ Shader "GRD/PirateGame/MapShader"
 					}
 				}
 
+				fixed waveValue = (_SinTime.w * _WavesSpeed + 1) / 2 * _WaveSize;
+
 				fixed grassDetailValue = smoothstep(
 					_GrassDetailSmoothstepMin, 
 					_GrassDetailSmoothstepMax, 
 					tex2D(_IslandGrassDetailTex, i.uv).r);
 				fixed4 islandColor = defineIslandColor(
-					islandValue,
+					islandValue, waveValue,
 					_IslandOutlineColor, _IslandOutlineValue,
 					_IslandWetSandColor, _IslandWetSandValue,
 					_IslandDrySandColor, _IslandDrySandValue,
@@ -204,7 +226,7 @@ Shader "GRD/PirateGame/MapShader"
 					_IslandGrassDetailColor, grassDetailValue);
 
 				fixed4 rockColor = defineRockColor(
-					rockValue,
+					rockValue, waveValue,
 					_RockOutlineColor, _RockOutlineValue,
 					_RockLateralColor1,
 					_RockLateralColor2,
@@ -212,8 +234,21 @@ Shader "GRD/PirateGame/MapShader"
 					rockNormal,
 					_RockLateralValue,
 					_RockTopColor, _RockTopValue);
+
+				fixed uvx = i.uv.x  * _WaterDetailSize;
+				fixed uvy = i.uv.y  * _WaterDetailSize;
+				fixed angle = -0.6;
+				fixed secondaryWaterColorValue = (sin(uvx * cos(angle) - uvy * sin(angle)) - uvx * sin(angle)) / cos(angle) - uvy + _WaterDetailSize + _Time.y * _WaterDetailSpeed;
+				secondaryWaterColorValue = step(1, secondaryWaterColorValue % 2);
+
+				fixed4 waterColor = lerp(_WaterColor, _WaterSecondaryColor, secondaryWaterColorValue);
+				if (islandValue - waveValue <= 0 && rockValue - waveValue <= 0)
+				{
+					waterColor = lerp(_DeepWaterColor, _DeepWaterSecondaryColor, secondaryWaterColorValue);
+				}
 				
 				fixed4 col = lerp(islandColor, rockColor, rockColor.a);
+				col = lerp(waterColor, col, col.a);
 
                 return col;
             }

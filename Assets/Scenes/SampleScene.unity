@@ -155,7 +155,7 @@ MonoBehaviour:
   _mapSize: 50
   _islandNoiseTexResolution: 32
   _islandNoiseSize: 5
-  _maxValueToPlaceIsland: 0.3
+  _maxValueToPlaceIsland: 0.2
   _minIslandRadius: 2
   _maxIslandRadius: 4
   _islandPrefab: {fileID: 6190235875063456979, guid: e5edd6283cdb24b4cb542f61723fda6f, type: 3}

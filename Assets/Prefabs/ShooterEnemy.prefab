@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2017462107
 Transform:
   m_ObjectHideFlags: 0
@@ -223,6 +223,7 @@ MonoBehaviour:
   _navMeshAgent: {fileID: 2017462106}
   _navigationStopDistance: 1
   _minAngleToRotate: 10
+  _deactivationTime: 2
   _minDistanceToFollowPlayer: 4
   _updatePathRate: 10
   _minDistanceToRetreat: 1.5

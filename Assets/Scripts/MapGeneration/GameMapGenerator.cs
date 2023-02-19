@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.AI.Navigation;
 
 public class GameMapGenerator : MonoBehaviour
 {
@@ -58,6 +59,12 @@ public class GameMapGenerator : MonoBehaviour
     [SerializeField] int _rockDisplacementTexResolution = 128;
     [SerializeField] float _rockDisplacementNoiseSize = 100;
 
+    [Header("Navigation")]
+    [SerializeField] NavMeshSurface _navMeshSurface;
+    [SerializeField] BoxCollider _navmeshGround;
+    [SerializeField] GameObject _navmeshObstaclePrefab;
+    private List<GameObject> _instantiatedNavmeshObstacles = new List<GameObject>();
+
     public void CreateNewMap()
     {
         _islandNoiseTexture = CreateNoiseTexture(_islandNoiseTexResolution, _islandNoiseSize);
@@ -72,6 +79,7 @@ public class GameMapGenerator : MonoBehaviour
         InstantiateMapElements(ref _rocks, _rocksPrefab, ref _instantiatedRocks);
 
         UpdateMapMaterial();
+        UpdateMapNavigation();
     }
 
     private Texture2D CreateNoiseTexture(int rez, float size)
@@ -153,6 +161,35 @@ public class GameMapGenerator : MonoBehaviour
         _scenarioSpriteRenderer.transform.position = Vector2.one * _mapSize / 2;
     }
 
+    private void UpdateMapNavigation() 
+    {
+        _navmeshGround.center = new Vector3(_mapSize / 2, 0, _mapSize / 2);
+        _navmeshGround.size = new Vector3(_mapSize + GameManager.instance.enemySpawnBorderSize * 2, 0, _mapSize + GameManager.instance.enemySpawnBorderSize * 2);
+
+        foreach (MapElement mapElement in _islands)
+        {
+            GameObject instantiatedCollider = ObjectPoolManager.instance.InstantiateInPool(
+                _navmeshObstaclePrefab, 
+                new Vector3(mapElement.position.x, 0, mapElement.position.y) * _mapSize, 
+                Quaternion.identity);
+            CapsuleCollider collider = instantiatedCollider.GetComponent<CapsuleCollider>();
+            collider.radius = mapElement.radius * _elementsRadiusMultiplier;
+            _instantiatedNavmeshObstacles.Add(instantiatedCollider);
+        }
+        foreach (MapElement mapElement in _rocks)
+        {
+            GameObject instantiatedCollider = ObjectPoolManager.instance.InstantiateInPool(
+                _navmeshObstaclePrefab,
+                new Vector3(mapElement.position.x, 0, mapElement.position.y) * _mapSize,
+                Quaternion.identity);
+            CapsuleCollider collider = instantiatedCollider.GetComponent<CapsuleCollider>();
+            collider.radius = mapElement.radius * _elementsRadiusMultiplier;
+            _instantiatedNavmeshObstacles.Add(instantiatedCollider);
+        }
+
+        _navMeshSurface.BuildNavMesh();
+    }
+
     public void ClearMap()
     {
         foreach (GameObject instantiatedElement in _instantiatedIslands)
@@ -166,6 +203,12 @@ public class GameMapGenerator : MonoBehaviour
             instantiatedElement.SetActive(false);
         }
         _instantiatedRocks.Clear();
+
+        foreach (GameObject instantiatedElement in _instantiatedNavmeshObstacles)
+        {
+            instantiatedElement.SetActive(false);
+        }
+        _instantiatedNavmeshObstacles.Clear();
 
         _islands.Clear();
         _rocks.Clear();

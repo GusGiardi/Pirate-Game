@@ -6,6 +6,7 @@ public class PlayerCamera : MonoBehaviour
 {
     private Transform _myTransform;
     [SerializeField] Camera _camera;
+    public new Camera camera => _camera;
 
     private Vector2 _currentVelocity = Vector2.zero;
     [SerializeField] float _smoothTime;

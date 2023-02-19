@@ -14,15 +14,46 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float _navigationStopDistance = 1;
     [SerializeField] float _minAngleToRotate = 10;
 
+    [Header("Deactivation")]
+    [SerializeField] float _deactivationTime = 2;
+    protected float _deactivationTimeCounter;
+
     protected virtual void Awake()
     {
         _myTransform = transform;
         _myPirateShip = GetComponent<PirateShip>();
     }
 
+    protected virtual void OnEnable() 
+    {
+        _deactivationTimeCounter = _deactivationTime;
+        AdjustNavMeshAgentPosition();
+        _navMeshAgent.gameObject.SetActive(true);
+    }
+
+    protected virtual void OnDisable() 
+    {
+        _navMeshAgent.gameObject.SetActive(false);
+    }
+
     protected virtual void Update()
     {
-        AdjustNavMeshAgentPosition();
+        if (!_myPirateShip.alive) 
+        {
+            _deactivationTimeCounter -= Time.deltaTime;
+            if (_deactivationTimeCounter <= 0) 
+            {
+                EnemySpawner.instance.RemoveEnemy(gameObject);
+            }
+        }
+
+        if (_navMeshAgent.hasPath) 
+        {
+            for(int i = 0; i < _navMeshAgent.path.corners.Length - 1; i++) 
+            {
+                Debug.DrawLine(_navMeshAgent.path.corners[i], _navMeshAgent.path.corners[i + 1], Color.white);
+            }
+        }
     }
 
     protected void AdjustNavMeshAgentPosition()

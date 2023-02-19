@@ -43,13 +43,17 @@ public class ShooterEnemyController : EnemyController
     [SerializeField] float _distanceToAttack = 3f;
     [SerializeField] float _retreatDistance = 3f;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         _currentBehaviour = Behaviour.FollowPlayer;
     }
 
     protected override void Update()
     {
+        base.Update();
+
         if (!_myPirateShip.alive)
         {
             return;

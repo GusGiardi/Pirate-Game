@@ -18,6 +18,8 @@ public class ChaserEnemyController : EnemyController
 
     protected override void Update()
     {
+        base.Update();
+
         if (!_myPirateShip.alive)
         {
             return;

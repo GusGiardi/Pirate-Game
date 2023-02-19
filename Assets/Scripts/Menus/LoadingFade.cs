@@ -25,14 +25,14 @@ public class LoadingFade : MonoBehaviour
         {
             if (_currentOpenValue < 1)
             {
-                _currentOpenValue += Time.deltaTime;
+                _currentOpenValue += Time.deltaTime * _animationVelocity;
             }
         }
         else 
         {
             if (_currentOpenValue > 0)
             {
-                _currentOpenValue -= Time.deltaTime;
+                _currentOpenValue -= Time.deltaTime * _animationVelocity;
             }
         }
 

@@ -620,8 +620,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 192ea1f80bc3b244486611addfd55ff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementVelocity: 0.3
-  _rotationVelocity: 0.1
+  _movementVelocity: 350
+  _rotationVelocity: 50
   _maxHealth: 100
   _currentHealth: 100
   _healthBarImage: {fileID: 4710313987119872177}

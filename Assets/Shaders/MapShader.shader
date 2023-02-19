@@ -72,9 +72,9 @@ Shader "GRD/PirateGame/MapShader"
 				fixed radius;
 			};
 
-			StructuredBuffer<MapElement> _islands;
+			uniform fixed3 _islandData[256];
 			uint _islandCount;
-			StructuredBuffer<MapElement> _rocks;
+			uniform fixed3 _rockData[256];
 			uint _rockCount;
 			fixed _mapSize;
 
@@ -191,23 +191,23 @@ Shader "GRD/PirateGame/MapShader"
 				for(uint islandIndex = 0; islandIndex < _islandCount; islandIndex++)
 				{
 					fixed currentValue = invLerp(
-						_islands[islandIndex].radius, 0,
-						distance(_islands[islandIndex].position, i.uv) * _mapSize);
+						_islandData[islandIndex].z, 0,
+						distance(_islandData[islandIndex].xy, i.uv) * _mapSize);
 					currentValue += lerp(_MinIslandDisplacement, _MaxIslandDisplacement, tex2D(_IslandDisplacementTex, i.uv));
 					islandValue = max(currentValue, islandValue);
 				}
 				for (uint rockIndex = 0; rockIndex < _rockCount; rockIndex++)
 				{
 					fixed currentValue = invLerp(
-						_rocks[rockIndex].radius, 0,
-						distance(_rocks[rockIndex].position, i.uv) * _mapSize);
+						_rockData[rockIndex].z, 0,
+						distance(_rockData[rockIndex].xy, i.uv) * _mapSize);
 					currentValue += lerp(_MinRockDisplacement, _MaxRockDisplacement, tex2D
 						(_RockDisplacementTex, i.uv));
 
-					if (currentValue > rockValue) 
+					if (currentValue > rockValue)
 					{
 						rockValue = currentValue, rockValue;
-						rockNormal = normalize(i.uv - _rocks[rockIndex].position);
+						rockNormal = normalize(i.uv - _rockData[rockIndex].xy);
 					}
 				}
 

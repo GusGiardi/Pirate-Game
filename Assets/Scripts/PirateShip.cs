@@ -88,13 +88,13 @@ public class PirateShip : MonoBehaviour
 
     public void Accelerate()
     {
-        _myRigidbody.AddForce(-_myTransform.up * _movementVelocity);
+        _myRigidbody.AddForce(-_myTransform.up * _movementVelocity * Time.deltaTime);
     }
 
     public void Rotate(bool clockwise)
     {
         float rotationVel = _rotationVelocity * (clockwise ? -1 : 1);
-        _myRigidbody.AddTorque(rotationVel);
+        _myRigidbody.AddTorque(rotationVel * Time.deltaTime);
     }
 
     public void Fire(int cannonGroupIndex)

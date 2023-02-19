@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     private PirateShip _myPirateShip;
 
+    [SerializeField] float _minDistanceToMapBorder = 1;
+
     private void Awake()
     {
         _myPirateShip = GetComponent<PirateShip>();
@@ -14,6 +16,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        StayInScreenLimits();
+
         if (!_myPirateShip.alive)
             return;
 
@@ -43,5 +47,19 @@ public class PlayerController : MonoBehaviour
         {
             _myPirateShip.Fire(2);
         }
+    }
+
+    private void StayInScreenLimits() 
+    {
+        float xPos = Mathf.Clamp(
+            transform.position.x,
+            GameManager.instance.mapLimitsBorderSize + _minDistanceToMapBorder,
+            GameManager.instance.mapGenerator.mapSize - GameManager.instance.mapLimitsBorderSize - _minDistanceToMapBorder);
+        float yPos = Mathf.Clamp(
+            transform.position.y,
+            GameManager.instance.mapLimitsBorderSize + _minDistanceToMapBorder,
+            GameManager.instance.mapGenerator.mapSize - GameManager.instance.mapLimitsBorderSize - _minDistanceToMapBorder);
+
+        transform.position = new Vector2(xPos, yPos);
     }
 }

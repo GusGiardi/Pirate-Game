@@ -21,5 +21,7 @@ public class GameHudManager : MonoBehaviour
         sb.Append(seconds.ToString("00"));
         _gameTimeText.text = sb.ToString();
         sb.Clear();
+
+        _scoreText.text = GameManager.instance.playerScore.ToString();
     }
 }

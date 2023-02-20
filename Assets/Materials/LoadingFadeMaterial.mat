@@ -68,10 +68,10 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Open: 1.0031905
+    - _Open: 1.0029906
     - _Parallax: 0.02
-    - _ScreenHeight: 382
-    - _ScreenWidth: 680
+    - _ScreenHeight: 818
+    - _ScreenWidth: 1440
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

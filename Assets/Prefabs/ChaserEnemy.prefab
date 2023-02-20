@@ -61,6 +61,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1211777792237431584, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: m_Color.b
+      value: 0.08627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211777792237431584, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: m_Color.g
+      value: 0.15411273
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211777792237431584, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7176471
+      objectReference: {fileID: 0}
     - target: {fileID: 7636163921982780729, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -138,6 +150,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _maxHealth
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _currentHealth
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
       propertyPath: _shipParts.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -158,8 +178,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7857353976694411516}
     - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
       propertyPath: _shipParts.Array.data[2]._damageSprites.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
       propertyPath: _shipParts.Array.data[0]._damageSprites.Array.data[0]
@@ -209,6 +237,26 @@ PrefabInstance:
       propertyPath: _shipParts.Array.data[3]._damageSprites.Array.data[1]
       value: 
       objectReference: {fileID: -1982622338, guid: eaead377507c6b5469a53177bed2ecce, type: 3}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 776847939}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddScore
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EnemyController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7636163923979343338, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -240,6 +288,7 @@ MonoBehaviour:
   _navigationStopDistance: 1
   _minAngleToRotate: 10
   _deactivationTime: 2
+  _killScore: 50
   _updatePathRate: 10
   _playerLayer:
     serializedVersion: 2

@@ -18,6 +18,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float _deactivationTime = 2;
     protected float _deactivationTimeCounter;
 
+    [Header("Score")]
+    [SerializeField] int _killScore = 50;
+
     protected virtual void Awake()
     {
         _myTransform = transform;
@@ -127,5 +130,10 @@ public class EnemyController : MonoBehaviour
         }
 
         _myPirateShip.Accelerate();
+    }
+
+    public void AddScore()
+    {
+        GameManager.instance.AddScore(_killScore);
     }
 }

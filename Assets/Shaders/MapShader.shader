@@ -72,9 +72,9 @@ Shader "GRD/PirateGame/MapShader"
 				fixed radius;
 			};
 
-			uniform fixed3 _islandData[256];
+			fixed3 _islandData[256];
 			uint _islandCount;
-			uniform fixed3 _rockData[256];
+			fixed3 _rockData[256];
 			uint _rockCount;
 			fixed _mapSize;
 

@@ -26,6 +26,7 @@ public class GameMapGenerator : MonoBehaviour
 
     [Header("Islands")]
     [SerializeField] int _islandNoiseTexResolution = 32;
+    [SerializeField] int _maxIslandCount = 256;
     private Texture2D _islandNoiseTexture;
     [SerializeField] float _islandNoiseSize = 5;
     [SerializeField] float _maxValueToPlaceIsland = 0.35f;
@@ -37,6 +38,7 @@ public class GameMapGenerator : MonoBehaviour
 
     [Header("Rocks")]
     [SerializeField] int _rocksNoiseTexResolution = 32;
+    [SerializeField] int _maxRockCount = 256;
     private Texture2D _rocksNoiseTexture;
     [SerializeField] float _rocksNoiseSize = 5;
     [SerializeField] float _maxValueToPlaceRocks = 0.35f;
@@ -48,7 +50,8 @@ public class GameMapGenerator : MonoBehaviour
 
     [Header("Render")]
     [SerializeField] SpriteRenderer _scenarioSpriteRenderer;
-    [SerializeField] Material _mapMaterial;
+    [SerializeField] Material _mapMaterialModel;
+    private Material _mapMaterial;
     private Texture2D _islandDisplacementTex;
     [SerializeField] int _islandDisplacementTexResolution = 256;
     [SerializeField] float _islandDisplacementNoiseSize = 30;
@@ -71,9 +74,9 @@ public class GameMapGenerator : MonoBehaviour
 
         _rocksNoiseTexture = CreateNoiseTexture(_rocksNoiseTexResolution, _rocksNoiseSize);
 
-        PopulateMapElementsList(ref _islands, _islandNoiseTexture, _maxValueToPlaceIsland, _minIslandRadius, _maxIslandRadius);
+        PopulateMapElementsList(ref _islands, _islandNoiseTexture, _maxValueToPlaceIsland, _minIslandRadius, _maxIslandRadius, _maxIslandCount);
 
-        PopulateMapElementsList(ref _rocks, _rocksNoiseTexture, _maxValueToPlaceRocks, _minRockRadius, _maxRockRadius);
+        PopulateMapElementsList(ref _rocks, _rocksNoiseTexture, _maxValueToPlaceRocks, _minRockRadius, _maxRockRadius, _maxRockCount);
 
         InstantiateMapElements(ref _islands, _islandPrefab, ref _instantiatedIslands);
         InstantiateMapElements(ref _rocks, _rocksPrefab, ref _instantiatedRocks);
@@ -104,8 +107,9 @@ public class GameMapGenerator : MonoBehaviour
         return noise;
     }
 
-    private void PopulateMapElementsList(ref List<MapElement> mapElementList, Texture2D noiseTex, float maxValueToCreateElement, float minRadius, float maxRadius)
+    private void PopulateMapElementsList(ref List<MapElement> mapElementList, Texture2D noiseTex, float maxValueToCreateElement, float minRadius, float maxRadius, int maxElementCount)
     {
+        int currentElementCount = 0;
         for (int x = 0; x < noiseTex.width; x++)
         {
             for (int y = 0; y < noiseTex.height; y++)
@@ -120,6 +124,9 @@ public class GameMapGenerator : MonoBehaviour
                 float radius = Mathf.Lerp(maxRadius, minRadius, pixelValue / maxValueToCreateElement);
 
                 mapElementList.Add(new MapElement(position, radius));
+                currentElementCount++;
+                if (currentElementCount >= maxElementCount)
+                    break;
             }
         }
     }
@@ -137,6 +144,8 @@ public class GameMapGenerator : MonoBehaviour
 
     private void UpdateMapMaterial()
     {
+        _mapMaterial = new Material(_mapMaterialModel);
+
         _mapMaterial.SetVectorArray("_islandData", _islands.Select(o => new Vector4(o.position.x, o.position.y, o.radius, 0)).ToArray());
         _mapMaterial.SetInt("_islandCount", _islands.Count);
 

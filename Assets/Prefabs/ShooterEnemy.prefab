@@ -69,6 +69,18 @@ PrefabInstance:
       propertyPath: _bulletPrefab
       value: 
       objectReference: {fileID: 6430288440551791136, guid: 32ea4328a789b9b429ebe934fe50e463, type: 3}
+    - target: {fileID: 1211777792237431584, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: m_Color.b
+      value: 0.08627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211777792237431584, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: m_Color.g
+      value: 0.15294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211777792237431584, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7176471
+      objectReference: {fileID: 0}
     - target: {fileID: 2648774356979447982, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
       propertyPath: _bulletPrefab
       value: 
@@ -154,6 +166,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _maxHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _currentHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
       propertyPath: _cannonGroups.Array.data[0]._cooldown
       value: 1
       objectReference: {fileID: 0}
@@ -163,6 +183,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
       propertyPath: _cannonGroups.Array.data[2]._cooldown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
@@ -197,6 +225,26 @@ PrefabInstance:
       propertyPath: _shipParts.Array.data[3]._damageSprites.Array.data[1]
       value: 
       objectReference: {fileID: -1190564059, guid: eaead377507c6b5469a53177bed2ecce, type: 3}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 768778432}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddScore
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EnemyController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636163923803086175, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7644253460252358702, guid: 97541f870f83fa9489e0c7cacc3bb1bb, type: 3}
       propertyPath: _bulletPrefab
       value: 
@@ -224,6 +272,7 @@ MonoBehaviour:
   _navigationStopDistance: 1
   _minAngleToRotate: 10
   _deactivationTime: 2
+  _killScore: 50
   _minDistanceToFollowPlayer: 4
   _updatePathRate: 10
   _minDistanceToRetreat: 1.5

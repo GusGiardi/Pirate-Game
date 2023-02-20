@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public static GameManager instance => _instance;
 
-    private static float _gameTime = 180;
+    #region Game Properties
+    private static float _gameTime = 60;
     private static float _enemySpawnRate = 5;
     public static float gameTime { get => _gameTime; set => _gameTime = value; }
     public static float enemySpawnRate { get => _enemySpawnRate; set => _enemySpawnRate = value; }
+    #endregion
 
+    #region Game Elements
     [SerializeField] PirateShip _playerShip;
     [SerializeField] PlayerCamera _playerCamera;
     [SerializeField] GameMapGenerator _mapGenerator;
@@ -20,15 +25,27 @@ public class GameManager : MonoBehaviour
     [SerializeField] EnemySpawner _enemySpawner;
     [SerializeField] LoadingFade _loadingFade;
 
+    public PirateShip playerShip => _playerShip;
     public Transform playerTransform => _playerShip.transform;
     public Vector2 cameraPosition => _playerCamera.transform.position;
     public Camera gameCamera => _playerCamera.camera;
     public GameMapGenerator mapGenerator => _mapGenerator;
     public float mapLimitsBorderSize => _mapLimitsBorderSize;
     public float enemySpawnBorderSize => _enemySpawnBorderSize;
+    #endregion
 
+    #region Game State
     private float _gameTimeCounter;
     public float gameTimeCounter => _gameTimeCounter;
+    private int _playerScore;
+    public int playerScore => _playerScore;
+
+    [SerializeField] UnityEvent _onGameStart;
+    [SerializeField] UnityEvent _onGameEnd;
+
+    public delegate void OnGameEnd();
+    public OnGameEnd onGameEnd;
+    #endregion
 
     private void Awake()
     {
@@ -53,8 +70,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator StartNewGame() 
+    #region Game Flow
+    public IEnumerator StartNewGame() 
     {
+        ResetScore();
+
         _mapGenerator.CreateNewMap();
 
         float playerMinPosition = _mapGenerator.mapSize / 4f;
@@ -69,18 +89,23 @@ public class GameManager : MonoBehaviour
         _gameTimeCounter = _gameTime;
         _loadingFade.Open();
         _enemySpawner.enabled = true;
+        _onGameStart.Invoke();
     }
 
-    private void EndGame() 
+    public void EndGame() 
     {
         _enemySpawner.enabled = false;
+        GameTimeManager.CreateTimeScaleMultiplier(this, 0);
+        _onGameEnd.Invoke();
+        onGameEnd?.Invoke();
     }
 
-    private IEnumerator DiscardLastGame() 
+    public IEnumerator DiscardLastGame() 
     {
         _loadingFade.Close();
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitUntil(() => _loadingFade.currentOpenValue <= 0);
+        GameTimeManager.DestroyTimeScaleMultiplier(this);
 
         _enemySpawner.RemoveAllEnemies();
 
@@ -89,4 +114,26 @@ public class GameManager : MonoBehaviour
         playerTransform.gameObject.SetActive(false);
     }
 
+    public IEnumerator ReturnToMainMenu(string mainMenuScene)
+    {
+        _loadingFade.Close();
+
+        yield return new WaitUntil(() => _loadingFade.currentOpenValue <= 0);
+        GameTimeManager.DestroyTimeScaleMultiplier(this);
+
+        SceneManager.LoadScene(mainMenuScene);
+    }
+    #endregion
+
+    #region Score
+    public void AddScore(int scoreToAdd)
+    {
+        _playerScore += scoreToAdd;
+    }
+
+    private void ResetScore()
+    {
+        _playerScore = 0;
+    }
+    #endregion
 }

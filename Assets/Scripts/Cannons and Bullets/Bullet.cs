@@ -24,7 +24,12 @@ public class Bullet : MonoBehaviour
     {
         _lifetimeCounter = _lifetime;
         _myRigidbody.velocity = _myTransform.up * _velocity;
+        GameManager.instance.onGameEnd += SelfDestroy;
+    }
 
+    private void OnDisable()
+    {
+        GameManager.instance.onGameEnd -= SelfDestroy;
     }
 
     private void Update()

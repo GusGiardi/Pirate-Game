@@ -12,6 +12,8 @@ public class LoadingFade : MonoBehaviour
     private bool _open = false;
     private float _currentOpenValue = 0;
 
+    public float currentOpenValue => _currentOpenValue;
+
     private void Awake()
     {
         _fadeMaterial = _fadeImage.material;
@@ -25,14 +27,18 @@ public class LoadingFade : MonoBehaviour
         {
             if (_currentOpenValue < 1)
             {
-                _currentOpenValue += Time.deltaTime * _animationVelocity;
+                _currentOpenValue += Time.unscaledDeltaTime * _animationVelocity;
+                if (_currentOpenValue >= 1)
+                {
+                    _fadeImage.gameObject.SetActive(false);
+                }
             }
         }
         else 
         {
             if (_currentOpenValue > 0)
             {
-                _currentOpenValue -= Time.deltaTime * _animationVelocity;
+                _currentOpenValue -= Time.unscaledDeltaTime * _animationVelocity;
             }
         }
 
@@ -41,11 +47,13 @@ public class LoadingFade : MonoBehaviour
 
     public void Open() 
     {
+        _fadeImage.gameObject.SetActive(true);
         _open = true;
     }
 
     public void Close()
     {
+        _fadeImage.gameObject.SetActive(true);
         _open = false;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
@@ -20,6 +21,7 @@ public class PirateShip : MonoBehaviour
     [SerializeField] ShipPart[] _shipParts;
     public bool alive => _currentHealth > 0;
     public float maxHealth => _maxHealth;
+    [SerializeField] UnityEvent _onDie;
 
     [System.Serializable]
     private class ShipPart
@@ -106,8 +108,18 @@ public class PirateShip : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (!alive)
+        {
+            return;
+        }
+
         _currentHealth -= damage;
         _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
+
+        if (!alive)
+        {
+            _onDie.Invoke();
+        }
 
         UpdateShipParts();
     }

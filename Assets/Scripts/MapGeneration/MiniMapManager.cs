@@ -15,7 +15,9 @@ public class MiniMapManager : MonoBehaviour
     [SerializeField] float _miniMapSize;
 
     [SerializeField] GameObject _playerIcon;
+    [SerializeField] Transform _playerIconParent;
     [SerializeField] GameObject _enemyIcon;
+    [SerializeField] Transform _enemyIconParent;
 
     private Dictionary<Transform, GameObject> _trackedTransforms = new Dictionary<Transform, GameObject>();
 
@@ -61,7 +63,7 @@ public class MiniMapManager : MonoBehaviour
             Vector3.zero,
             Quaternion.identity);
 
-        icon.transform.SetParent(_mapImage.transform);
+        icon.transform.SetParent(isPlayer ? _playerIconParent : _enemyIconParent);
         UpdateIconPosition(icon.transform as RectTransform, transformToTrack);
         icon.SetActive(true);
 

@@ -14,6 +14,16 @@ public class PlayerController : MonoBehaviour
         _myPirateShip = GetComponent<PirateShip>();
     }
 
+    private void OnEnable()
+    {
+        MiniMapManager.instance.TrackTransform(transform, true);
+    }
+
+    private void OnDisable()
+    {
+        MiniMapManager.instance.RemoveTrackedTransform(transform);
+    }
+
     private void Update()
     {
         StayInScreenLimits();

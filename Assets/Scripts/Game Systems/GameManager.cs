@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     #region Game Properties
     private static float _gameTime = 60;
-    private static float _enemySpawnRate = 5;
+    private static float _enemySpawnRate = 5f;
     public static float gameTime { get => _gameTime; set => _gameTime = value; }
     public static float enemySpawnRate { get => _enemySpawnRate; set => _enemySpawnRate = value; }
     #endregion
@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     public PirateShip playerShip => _playerShip;
     public Transform playerTransform => _playerShip.transform;
+    public PlayerCamera playerCamera => _playerCamera;
     public Vector2 cameraPosition => _playerCamera.transform.position;
     public Camera gameCamera => _playerCamera.camera;
     public GameMapGenerator mapGenerator => _mapGenerator;
@@ -45,6 +46,10 @@ public class GameManager : MonoBehaviour
 
     public delegate void OnGameEnd();
     public OnGameEnd onGameEnd;
+    #endregion
+
+    #region GameMusic
+    [SerializeField] AudioClip _gameMusic;
     #endregion
 
     private void Awake()
@@ -87,6 +92,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         _gameTimeCounter = _gameTime;
+        MusicManager.instance.PlayMusic(_gameMusic);
         _loadingFade.Open();
         _enemySpawner.enabled = true;
         _onGameStart.Invoke();
@@ -94,7 +100,9 @@ public class GameManager : MonoBehaviour
 
     public void EndGame() 
     {
+        _gameTimeCounter = 0;
         _enemySpawner.enabled = false;
+        MusicManager.instance.PlayMusic(null);
         GameTimeManager.CreateTimeScaleMultiplier(this, 0);
         _onGameEnd.Invoke();
         onGameEnd?.Invoke();
@@ -102,6 +110,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator DiscardLastGame() 
     {
+        MusicManager.instance.PlayMusic(null);
         _loadingFade.Close();
 
         yield return new WaitUntil(() => _loadingFade.currentOpenValue <= 0);
@@ -116,6 +125,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator ReturnToMainMenu(string mainMenuScene)
     {
+        MusicManager.instance.PlayMusic(null);
         _loadingFade.Close();
 
         yield return new WaitUntil(() => _loadingFade.currentOpenValue <= 0);

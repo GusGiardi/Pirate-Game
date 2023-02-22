@@ -21,7 +21,9 @@ public class PirateShip : MonoBehaviour
     [SerializeField] ShipPart[] _shipParts;
     public bool alive => _currentHealth > 0;
     public float maxHealth => _maxHealth;
+    [SerializeField] UnityEvent _onTakeDamage;
     [SerializeField] UnityEvent _onDie;
+    [SerializeField] SoundEmitter _damageSoundEmitter;
 
     [System.Serializable]
     private class ShipPart
@@ -36,8 +38,22 @@ public class PirateShip : MonoBehaviour
         }
     }
 
+    [Header("Death Explosion")]
+    [SerializeField] GameObject _explosionPrefab;
+    [SerializeField] int _explosionCount = 3;
+    private int _explosionCounter;
+    [SerializeField] float _timeBetweenExplosions = 0.2f;
+    private float _explosionTimeCounter;
+    [SerializeField] float _explosionSpawnRadius = 0.5f;
+
     [Header("Attack")]
     [SerializeField] CannonGroup[] _cannonGroups;
+
+    [Header("Screen Effects")]
+    [SerializeField] float _damageScreenShakeTime = 0.5f;
+    [SerializeField] float _damageScreenShakeIntensity = 0.5f;
+    [SerializeField] float _deathScreenShakeTime = 0.5f;
+    [SerializeField] float _deathScreenShakeIntensity = 0.5f;
 
     [System.Serializable]
     private class CannonGroup
@@ -78,6 +94,9 @@ public class PirateShip : MonoBehaviour
     {
         _currentHealth = _maxHealth;
         UpdateShipParts();
+
+        _explosionCounter = 0;
+        _explosionTimeCounter = _timeBetweenExplosions;
     }
 
     private void Update()
@@ -85,6 +104,11 @@ public class PirateShip : MonoBehaviour
         foreach (CannonGroup cannonGroup in _cannonGroups)
         {
             cannonGroup.UpdateCooldown();
+        }
+
+        if (!alive)
+        {
+            DeathExplosion();
         }
     }
 
@@ -115,6 +139,10 @@ public class PirateShip : MonoBehaviour
 
         _currentHealth -= damage;
         _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
+        _onTakeDamage.Invoke();
+
+        if (_damageSoundEmitter != null)
+            _damageSoundEmitter.PlaySound();
 
         if (!alive)
         {
@@ -134,5 +162,35 @@ public class PirateShip : MonoBehaviour
         {
             part.UpdateSprite(healthPercentage);
         }
+    }
+
+    private void DeathExplosion()
+    {
+        if (_explosionPrefab == null)
+            return;
+
+        if (_explosionCounter >= _explosionCount)
+            return;
+
+        _explosionTimeCounter += Time.deltaTime;
+        if (_explosionTimeCounter >= _timeBetweenExplosions)
+        {
+            Vector2 explosionPosition = _myTransform.position;
+            explosionPosition += new Vector2(Random.value, Random.value) * _explosionSpawnRadius;
+            ObjectPoolManager.instance.InstantiateInPool(_explosionPrefab, explosionPosition, _myTransform.rotation);
+
+            _explosionTimeCounter = 0;
+            _explosionCounter++;
+        }
+    }
+
+    public void DamageScreenShake()
+    {
+        GameManager.instance.playerCamera.ScreenShake(_damageScreenShakeTime, _damageScreenShakeIntensity);
+    }
+
+    public void DeathScreenShake()
+    {
+        GameManager.instance.playerCamera.ScreenShake(_deathScreenShakeTime, _deathScreenShakeIntensity);
     }
 }

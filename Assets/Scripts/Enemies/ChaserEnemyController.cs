@@ -40,12 +40,12 @@ public class ChaserEnemyController : EnemyController
         if ((_playerLayer & 1 << collision.gameObject.layer) == 0)
             return;
 
+        SelfDestroy();
         PirateShip ship = collision.collider.GetComponent<PirateShip>();
         if (ship != null)
         {
             ship.TakeDamage(_collisionPower);
         }
-        SelfDestroy();
     }
 
     private void SelfDestroy()

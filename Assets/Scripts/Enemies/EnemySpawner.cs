@@ -40,10 +40,10 @@ public class EnemySpawner : MonoBehaviour
         float minPos = - GameManager.instance.enemySpawnBorderSize;
         float maxPos = mapSize + GameManager.instance.enemySpawnBorderSize;
 
-        float screenMinX = cameraPosition.x - cameraWidth;
-        float screenMaxX = cameraPosition.x + cameraWidth;
-        float screenMinY = cameraPosition.y - cameraHeight;
-        float screenMaxY = cameraPosition.y + cameraHeight;
+        float screenMinX = cameraPosition.x - cameraWidth - GameManager.instance.enemySpawnBorderSize;
+        float screenMaxX = cameraPosition.x + cameraWidth + GameManager.instance.enemySpawnBorderSize;
+        float screenMinY = cameraPosition.y - cameraHeight - GameManager.instance.enemySpawnBorderSize;
+        float screenMaxY = cameraPosition.y + cameraHeight + GameManager.instance.enemySpawnBorderSize;
 
         float posX;
         float posY;

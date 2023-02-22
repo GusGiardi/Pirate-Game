@@ -29,6 +29,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void OnEnable() 
     {
+        MiniMapManager.instance.TrackTransform(transform, false);
         _deactivationTimeCounter = _deactivationTime;
         AdjustNavMeshAgentPosition();
         _navMeshAgent.gameObject.SetActive(true);
@@ -36,6 +37,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void OnDisable() 
     {
+        MiniMapManager.instance.RemoveTrackedTransform(transform);
         _navMeshAgent.gameObject.SetActive(false);
     }
 

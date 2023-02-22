@@ -11,6 +11,8 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] string _gameScene;
 
+    [SerializeField] AudioClip _menuMusic;
+
     #region Settings
     [Header("Settings")]
     [SerializeField] GameObject _settingsScreen;
@@ -43,6 +45,7 @@ public class MainMenu : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         _loadingFade.Open();
+        MusicManager.instance.PlayMusic(_menuMusic);
     }
 
     public void StartGameButton()

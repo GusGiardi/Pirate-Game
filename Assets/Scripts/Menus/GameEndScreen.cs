@@ -21,6 +21,8 @@ public class GameEndScreen : MonoBehaviour
 
     [SerializeField] string _mainMenuScene;
 
+    [SerializeField] AudioClip _gameResultsMusic;
+
     private StringBuilder sb = new StringBuilder();
 
     private void Update()
@@ -56,6 +58,8 @@ public class GameEndScreen : MonoBehaviour
 
     private void ShowResults()
     {
+        MusicManager.instance.PlayMusic(_gameResultsMusic);
+        GameManager.instance.playerCamera.StopScreenShake();
         _finishScreen.SetActive(false);
         _resultScreen.SetActive(true);
     }

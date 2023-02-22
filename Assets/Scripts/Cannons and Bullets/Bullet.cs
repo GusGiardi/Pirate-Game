@@ -14,6 +14,8 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] float _power;
 
+    [SerializeField] GameObject _hitExplosion;
+
     private void Awake()
     {
         _myTransform = transform;
@@ -53,6 +55,7 @@ public class Bullet : MonoBehaviour
         {
             ship.TakeDamage(_power);
         }
+        ObjectPoolManager.instance.InstantiateInPool(_hitExplosion, _myTransform.position, _myTransform.rotation);
         SelfDestroy();
     }
 

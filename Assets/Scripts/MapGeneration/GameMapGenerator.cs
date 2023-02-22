@@ -61,6 +61,7 @@ public class GameMapGenerator : MonoBehaviour
     private Texture2D _rockDisplacementTex;
     [SerializeField] int _rockDisplacementTexResolution = 128;
     [SerializeField] float _rockDisplacementNoiseSize = 100;
+    [SerializeField] MiniMapManager _miniMap;
 
     [Header("Navigation")]
     [SerializeField] NavMeshSurface _navMeshSurface;
@@ -146,10 +147,12 @@ public class GameMapGenerator : MonoBehaviour
     {
         _mapMaterial = new Material(_mapMaterialModel);
 
-        _mapMaterial.SetVectorArray("_islandData", _islands.Select(o => new Vector4(o.position.x, o.position.y, o.radius, 0)).ToArray());
+        Vector4[] islandData = _islands.Select(o => new Vector4(o.position.x, o.position.y, o.radius, 0)).ToArray();
+        _mapMaterial.SetVectorArray("_islandData", islandData);
         _mapMaterial.SetInt("_islandCount", _islands.Count);
 
-        _mapMaterial.SetVectorArray("_rockData", _rocks.Select(o => new Vector4(o.position.x, o.position.y, o.radius, 0)).ToArray());
+        Vector4[] rockData = _rocks.Select(o => new Vector4(o.position.x, o.position.y, o.radius, 0)).ToArray();
+        _mapMaterial.SetVectorArray("_rockData", rockData);
         _mapMaterial.SetInt("_rockCount", _rocks.Count);
 
         _islandDisplacementTex = CreateNoiseTexture(_islandDisplacementTexResolution, _islandDisplacementNoiseSize);
@@ -168,6 +171,8 @@ public class GameMapGenerator : MonoBehaviour
         _scenarioSpriteRenderer.material = _mapMaterial;
         _scenarioSpriteRenderer.transform.localScale = Vector3.one * _mapSize;
         _scenarioSpriteRenderer.transform.position = Vector2.one * _mapSize / 2;
+
+        _miniMap.UpdateMapTexture(islandData, _islands.Count, rockData, _rocks.Count, _islandDisplacementTex, _islandGrassDetailTex, _rockDisplacementTex, _mapSize);
     }
 
     private void UpdateMapNavigation() 

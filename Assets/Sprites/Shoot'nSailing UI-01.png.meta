@@ -367,7 +367,7 @@ TextureImporter:
         width: 193
         height: 51
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 28, y: 0, z: 26, w: 0}
       outline: []
       physicsShape: []
@@ -388,7 +388,7 @@ TextureImporter:
         width: 193
         height: 51
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 28, y: 0, z: 26, w: 0}
       outline: []
       physicsShape: []
@@ -396,6 +396,90 @@ TextureImporter:
       bones: []
       spriteID: fcb2626be79c920479f16931f2e97109
       internalID: -1071365159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpArrow
+      rect:
+        serializedVersion: 2
+        x: 892
+        y: 847
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26699738641d26c418f50b754bab7d9a
+      internalID: 447375005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DownArrow
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 846
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0948715ae5c819c409d62f4a94f36222
+      internalID: -1999633241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeftArrow
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 802
+        width: 31
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3eee2cb1d10cf204b88fbc39595fe994
+      internalID: -1127832816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RightArrow
+      rect:
+        serializedVersion: 2
+        x: 933
+        y: 802
+        width: 31
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dde0dcc952b544c4fa60e04f9f2afb68
+      internalID: -2097358050
       vertices: []
       indices: 
       edges: []
@@ -418,11 +502,15 @@ TextureImporter:
       CannonFire: 1885945203
       Window: -835354648
       TutorialScenario: -159843448
+      DownArrow: -1999633241
       KeyboardButton: -342766878
+      UpArrow: 447375005
+      RightArrow: -2097358050
       Button: 526971631
       HealthBarFront: -1071365159
       ButtonLeftBorder: -226037926
       ButtonRightBorder: 906624097
+      LeftArrow: -1127832816
       HealthBar: 1311522190
   spritePackingTag: 
   pSDRemoveMatte: 0

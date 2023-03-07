@@ -62,6 +62,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(_gameScene);
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     #region Settings
     public void OpenSettingsScreen()
     {
